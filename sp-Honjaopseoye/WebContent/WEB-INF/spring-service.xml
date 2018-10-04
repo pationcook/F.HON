@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	">
+	<bean id="message-source" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>messages_ko_KR</value>
+		</property>
+	</bean>
+	<bean id="mem-logic" class="hj.logic.MemberLogic"/>
+	<bean id="gro-logic" class="hj.logic.GroupLogic"/>
+	<bean id="fri-logic" class="hj.logic.FriendLogic"/>
+	<bean id="sto-logic" class="hj.logic.StoreLogic"/>
+	<bean id="gro-logic" class="hj.logic.GroupLogic"/>
+</beans>

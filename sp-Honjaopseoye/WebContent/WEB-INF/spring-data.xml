@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="data-source-target" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"> <!-- name == setter메소드 (객체주입용) -->
+			<value>oracle.jdbc.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@192.168.0.26:1521:orcl11</value>
+		</property>
+		<property name="username"><!-- public void setUserName(){} -->
+			<value>test</value>
+		</property>
+		<property name="password">
+			<value>123</value>
+		</property>
+	</bean>
+<!-- ====================================================================== -->
+<!-- TRANSACTION CONFIGURATION -->
+<!-- ====================================================================== -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="data-source-target"/>
+	</bean>
+<!-- ====================================================================== -->
+<!-- myBatis Layer config -->
+<!-- ====================================================================== -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="WEB-INF/mybatis-config.xml"/>
+		<property name="dataSource" ref="data-source-target"/>
+	</bean>
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"/>
+	</bean>
+	<bean id="MemberDao" class="hj.dao.MemberDao">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+	</bean>
+	<bean id="FriendDao" class="hj.dao.FriendDao">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+	</bean>
+	<!-- <bean id="GroupDao" class="hj.dao.GroupDao">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+	</bean>
+	<bean id="StoreDao" class="hj.dao.StoreDao">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+	</bean>
+	<bean id="BoardDao" class="hj.dao.BoardDao">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+	</bean> -->
+	<!-- DAO계층은 mvc패턴에 속하지 않기 때문에 따로 빈생성을 해줘야한다. -->
+<!-- ====================================================================== -->
+<!-- DAO Bean Create -->
+<!-- ====================================================================== -->
+</beans>
